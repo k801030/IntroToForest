@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">IntroToForest</string>
+    <string name="app_name">森多多</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
+
+    <string name="fragment.play.start">開始</string>
 </resources>
