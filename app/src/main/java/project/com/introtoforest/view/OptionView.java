@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Attr;
 
+import java.util.ArrayList;
+
 import project.com.introtoforest.R;
 
 /**
@@ -25,9 +28,14 @@ public class OptionView extends LinearLayout {
 
     private int background = 0x30000000;
     private int margins = 1;
+    private static final int OPTION_SIZE = 4;
+
+    private ArrayList<OptionItem> options;
 
     public OptionView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
+
+        options = new ArrayList<OptionItem>(OPTION_SIZE);
 
         int[] attrsArray = new int[] {
                 android.R.attr.id, // 0
@@ -55,22 +63,26 @@ public class OptionView extends LinearLayout {
         // set layout
         setOrientation(VERTICAL);
 
+
         // add text view
-        addTextView("123");
-        addTextView("456");
-        addTextView("789");
-        addTextView("000");
+        for (int i=0;i<OPTION_SIZE;i++) {
+            options.add(new OptionItem(getContext()));
+            addTextView(options.get(i));
+        }
+
         addBottomView(4, 10);
+
     }
 
-    public void addTextView(String text) {
-        OptionItem item = new OptionItem(getContext());
-        item.setText(text);
+    private void addTextView(OptionItem item) {
         item.setGravity(Gravity.CENTER);
+        item.setBackground(getResources().getDrawable(R.drawable.option_color));
         LinearLayout.LayoutParams params = new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, 0, 2.0f);
         item.setLayoutParams(params);
         params.setMargins(0, 0, 0, margins);
+        item.setClickable(true); // enable click
+
         addView(item);
     }
 
@@ -86,6 +98,7 @@ public class OptionView extends LinearLayout {
         LinearLayout.LayoutParams params = new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f);
         bottom.setLayoutParams(params);
+        bottom.setBackgroundColor(Color.WHITE);
         addView(bottom);
     }
 
@@ -95,11 +108,41 @@ public class OptionView extends LinearLayout {
     }
 
 
-    class OptionItem extends TextView {
+
+    public class OptionItem extends TextView {
+        private boolean correct;
         public OptionItem(Context context) {
             super(context);
             setBackgroundColor(Color.WHITE);
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO:
+
+                    Log.d("is correct or not", Boolean.toString(correct));
+                }
+            });
         }
 
+        public void setTextAndCorrectness(String text, boolean correct) {
+            this.setText(text);
+            this.correct = correct;
+        }
+
+        /**
+         * set if the option is correct.
+         */
+        public void setCorrectness(boolean c) {
+            correct = c;
+        }
+
+        public boolean getCorrectness() {
+            return correct;
+        }
+
+    }
+
+    public OptionItem getOption(int i) {
+        return options.get(i);
     }
 }

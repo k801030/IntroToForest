@@ -1,20 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+
+    <project.com.introtoforest.view.SquareImageView
+        android:id="@+id/question_img"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"/>
-    <TextView
-        android:id="@+id/question"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="Quiz"/>
+        android:layout_weight="3"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sample_pic"
+        app:dependOnHeight="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        />
+
     <project.com.introtoforest.view.OptionView
+        android:id="@+id/options"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"></project.com.introtoforest.view.OptionView>
+        android:layout_weight="4"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="15dp"
+        />
 </LinearLayout>
