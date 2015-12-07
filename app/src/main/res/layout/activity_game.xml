@@ -4,8 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
-    >
+    android:background="@color/bg">
 
 
     <project.com.introtoforest.view.SquareImageView
@@ -20,7 +19,7 @@
         android:layout_marginTop="25dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="30dp"
         />
 
     <project.com.introtoforest.view.OptionView
@@ -28,8 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
+
         android:layout_marginBottom="15dp"
         />
 </LinearLayout>
