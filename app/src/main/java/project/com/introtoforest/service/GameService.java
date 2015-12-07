@@ -136,7 +136,7 @@ public class GameService implements Observer {
      * process of a single QA
      */
     public void startNextStage() {
-
+        mOptionView.setOptionViewClickable(false);
         if (current > TOTAL_QUESTION) {
             endingCallback.onEnding(score);
             return;

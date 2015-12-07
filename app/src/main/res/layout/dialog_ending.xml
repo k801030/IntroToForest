@@ -37,7 +37,8 @@
             android:text="@string/dialog.ending.restart_btn"
             android:layout_margin="5dp"
             android:drawableLeft="@drawable/reload"
-            android:padding="7dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             />
 
         <Button
@@ -48,7 +49,8 @@
             android:textColor="@color/white"
             android:text="@string/dialog.ending.quit_btn"
             android:layout_margin="5dp"
-            android:padding="7dp"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
             android:drawableLeft="@drawable/exit"
 
             />
