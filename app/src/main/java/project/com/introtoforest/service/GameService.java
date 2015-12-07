@@ -33,6 +33,8 @@ public class GameService implements Observer {
     private static final int D_PRESS = 500;
     private static final int D_FADE_OUT = 500;
     private static final int D_NEXT_STAGE = 1000;
+    private static final int D_IMG_FADE_IN = 900;
+    private static final int D_OPTION_SHOW = 400;
 
 
     public GameService (Context context){
@@ -64,6 +66,12 @@ public class GameService implements Observer {
             // quit the game
             return;
         }
+
+        // set animation
+        hideAll();
+        imageFadeIn();
+        optionsFadeInInSeq();
+
 
         mOptionView.resetView();
 
@@ -118,6 +126,7 @@ public class GameService implements Observer {
         mOptionView.setOptionViewClickable(false);
         final Handler handler = new Handler();
 
+        imageFadeOut();
         optionsFadeOut();
 
 
@@ -128,10 +137,21 @@ public class GameService implements Observer {
                 startNextStage();
                 mOptionView.setOptionViewClickable(true);
 
-                optionsFadeInInSeq();
-
             }
         }, D_FADE_OUT+D_NEXT_STAGE);
+    }
+
+    private void imageFadeOut() {
+        YoYo.with(Techniques.FadeOut)
+                .delay(D_PRESS)
+                .duration(D_FADE_OUT)
+                .playOn(mQuestionView);
+    }
+
+    private void imageFadeIn() {
+        YoYo.with(Techniques.FadeIn)
+                .duration(D_IMG_FADE_IN)
+                .playOn(mQuestionView);
     }
 
     private void optionsFadeOut() {
@@ -151,18 +171,36 @@ public class GameService implements Observer {
     private void optionsFadeInInSeq() {
 
         Handler handler = new Handler();
-
-        for (int i=0;i<4;i++) {
+        int i;
+        for (i=0;i<4;i++) {
             final int k = i;
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    YoYo.with(Techniques.FadeInLeft)
-                            .duration(250)
+                    YoYo.with(Techniques.ZoomIn)
+                            .duration(D_OPTION_SHOW)
                             .playOn(mOptionView.getOption(k));
                 }
-            }, i * 200);
+            }, i * 200 + D_IMG_FADE_IN);
         }
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                YoYo.with(Techniques.FadeIn)
+                        .duration(500)
+                        .playOn(mOptionView.getBottomText());
+            }
+        }, i * 200 + D_IMG_FADE_IN);
     }
 
+    private void hideAll() {
+        for (int i=0;i<4;i++) {
+            YoYo.with(Techniques.FadeOut)
+                    .duration(0)
+                    .playOn(mOptionView.getOption(i));
+        }
+        YoYo.with(Techniques.FadeOut)
+                .duration(0)
+                .playOn(mOptionView.getBottomText());
+    }
 }
