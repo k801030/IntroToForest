@@ -1,6 +1,7 @@
 package project.com.introtoforest.view;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -10,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -109,7 +113,7 @@ public class OptionView extends LinearLayout {
             params.setMargins(0, 0, 0, margins);
             setClickable(true); // enable click
 
-            setBackgroundColor(Color.WHITE);
+            setBackground(getResources().getDrawable(R.drawable.abc_list_selector_background_transition_holo_dark));
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -119,7 +123,6 @@ public class OptionView extends LinearLayout {
                         setBackgroundColor(getResources().getColor(R.color.wrong));
                     }
                     onClickObservable.notifyObservers();
-
                 }
             });
         }

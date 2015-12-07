@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.widget.ImageView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -25,6 +28,12 @@ public class GameService implements Observer {
     private OptionView mOptionView;
     private ImageView mQuestionView;
     private int current;
+
+    // delay constant
+    private static final int D_PRESS = 500;
+    private static final int D_FADE_OUT = 500;
+    private static final int D_NEXT_STAGE = 1000;
+
 
     public GameService (Context context){
         qaModels = new ArrayList<QAModel>(15);
@@ -108,13 +117,52 @@ public class GameService implements Observer {
     public void update(Observable observable, Object o) {
         mOptionView.setOptionViewClickable(false);
         final Handler handler = new Handler();
+
+        optionsFadeOut();
+
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 // Do something after 5s = 5000ms
                 startNextStage();
                 mOptionView.setOptionViewClickable(true);
+
+                optionsFadeInInSeq();
+
             }
-        }, 500);
+        }, D_FADE_OUT+D_NEXT_STAGE);
     }
+
+    private void optionsFadeOut() {
+        for (int i=0;i<4;i++) {
+            YoYo.with(Techniques.FadeOut)
+                    .delay(D_PRESS)
+                    .duration(D_FADE_OUT)
+                    .playOn(mOptionView.getOption(i));
+        }
+        YoYo.with(Techniques.FadeOut)
+                .delay(D_PRESS)
+                .duration(D_FADE_OUT)
+                .playOn(mOptionView.getBottomText());
+
+    }
+
+    private void optionsFadeInInSeq() {
+
+        Handler handler = new Handler();
+
+        for (int i=0;i<4;i++) {
+            final int k = i;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    YoYo.with(Techniques.FadeInLeft)
+                            .duration(250)
+                            .playOn(mOptionView.getOption(k));
+                }
+            }, i * 200);
+        }
+    }
+
 }
