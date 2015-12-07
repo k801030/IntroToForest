@@ -2,24 +2,20 @@ package project.com.introtoforest.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import org.w3c.dom.Attr;
-
 import java.util.ArrayList;
+import java.util.Observable;
 
 import project.com.introtoforest.R;
+import project.com.introtoforest.service.GameService;
 
 /**
  * Created by Vison on 2015/12/2.
@@ -29,13 +25,27 @@ public class OptionView extends LinearLayout {
     private int background = 0x30000000;
     private int margins = 1;
     private static final int OPTION_SIZE = 4;
+    private boolean clickable = true;
 
-    private ArrayList<OptionItem> options;
+    private ArrayList<OptionItem> mOptions;
+    private BottomText mBottomText;
+    private GameService mGameService;
 
     public OptionView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
 
-        options = new ArrayList<OptionItem>(OPTION_SIZE);
+        // init view
+        mOptions = new ArrayList<OptionItem>(OPTION_SIZE);
+        for (int i=0;i<OPTION_SIZE;i++) {
+            mOptions.add(new OptionItem(getContext()));
+        }
+        mBottomText = new BottomText(getContext());
+
+        // add view
+        for (int i=0;i<OPTION_SIZE;i++) {
+            addView(mOptions.get(i));
+        }
+        addView(mBottomText);
 
         int[] attrsArray = new int[] {
                 android.R.attr.id, // 0
@@ -49,77 +59,67 @@ public class OptionView extends LinearLayout {
 
         ta.recycle();
 
-        setAttribute(attrs);
-    }
-
-    // set attribute of XML to view
-    protected void setAttribute(AttributeSet attrs) {
-
-
         // set size of view
         setMinimumHeight(50);
         setMinimumWidth(50);
 
         // set layout
         setOrientation(VERTICAL);
-
-
-        // add text view
-        for (int i=0;i<OPTION_SIZE;i++) {
-            options.add(new OptionItem(getContext()));
-            addTextView(options.get(i));
-        }
-
-        addBottomView(4, 10);
-
     }
 
-    private void addTextView(OptionItem item) {
-        item.setGravity(Gravity.CENTER);
-        item.setBackground(getResources().getDrawable(R.drawable.option_color));
-        LinearLayout.LayoutParams params = new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 0, 2.0f);
-        item.setLayoutParams(params);
-        params.setMargins(0, 0, 0, margins);
-        item.setClickable(true); // enable click
 
-        addView(item);
+
+    public void resetView() {
+        for (int i=0;i< mOptions.size();i++) {
+            mOptions.get(i).setBackgroundColor(Color.WHITE);
+        }
+        setClickable(true);
+    }
+
+    public void setGameService(GameService gameService) {
+        mGameService = gameService;
+        for (int i=0;i<OPTION_SIZE;i++) {
+            getOption(i).onClickObservable.addObserver(mGameService);
+        }
     }
 
     /**
-     *
-     * @param serial the serial num of question
-     * @param total total num of question
+     * Option Item is inside Option View
      */
-    private void addBottomView(int serial, int total) {
-        TextView bottom = new TextView(getContext());
-        bottom.setText(serial + " of " + total);
-        bottom.setGravity(Gravity.CENTER);
-        LinearLayout.LayoutParams params = new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f);
-        bottom.setLayoutParams(params);
-        bottom.setBackgroundColor(Color.WHITE);
-        addView(bottom);
-    }
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-    }
-
-
 
     public class OptionItem extends TextView {
         private boolean correct;
+        private Observable onClickObservable;
+
         public OptionItem(Context context) {
             super(context);
+            onClickObservable = new Observable() {
+                @Override
+                public void notifyObservers() {
+                    setChanged();
+                    super.notifyObservers();
+                }
+            };
+
+            setGravity(Gravity.CENTER);
+
+            LinearLayout.LayoutParams params = new LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 2.0f);
+            setLayoutParams(params);
+            params.setMargins(0, 0, 0, margins);
+            setClickable(true); // enable click
+
             setBackgroundColor(Color.WHITE);
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO:
+                    if (correct) {
+                        setBackgroundColor(getResources().getColor(R.color.correct));
+                    } else {
+                        setBackgroundColor(getResources().getColor(R.color.wrong));
+                    }
+                    onClickObservable.notifyObservers();
 
-                    Log.d("is correct or not", Boolean.toString(correct));
                 }
             });
         }
@@ -143,6 +143,48 @@ public class OptionView extends LinearLayout {
     }
 
     public OptionItem getOption(int i) {
-        return options.get(i);
+        return mOptions.get(i);
+    }
+
+
+    public class BottomText extends TextView {
+        int serial, total;
+
+        public BottomText(Context context) {
+            super(context);
+            setGravity(Gravity.CENTER);
+            LayoutParams params = new LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f);
+            setLayoutParams(params);
+            setBackgroundColor(Color.WHITE);
+        }
+
+        public void setSerial(int serial) {
+            this.serial = serial;
+            setText(serial + " of " + total);
+        }
+
+        public void setTotal(int total) {
+            this.total = total;
+            setText(serial + " of " + total);
+        }
+    }
+    public BottomText getBottomText() {
+        return mBottomText;
+    }
+
+
+    /**
+     * make un-clickable after choose an option
+     * @param ev
+     * @return
+     */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return !clickable;
+    }
+
+    public void setOptionViewClickable(boolean b) {
+        clickable = b;
     }
 }
