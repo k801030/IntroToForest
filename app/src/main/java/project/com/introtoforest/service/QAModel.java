@@ -8,27 +8,29 @@ import android.graphics.drawable.Drawable;
 public class QAModel {
     private static final int OPTION_SIZE = 4;
 
-    private Drawable questionImage;
+    private int questionImageId;
     private String correctAnswer;
     private String[] wrongAnswer = new String[OPTION_SIZE];
 
-    public void setQuestionImage(Drawable img) {
-        questionImage = img;
+    public QAModel setQuestionImageId(int img) {
+        questionImageId = img;
+        return this;
     }
 
-    public void setCorrectAnswer(String ans) {
+    public QAModel setCorrectAnswer(String ans) {
         correctAnswer = ans;
+        return this;
     }
 
-    public void setWrongAnswer(String ans1, String ans2, String ans3) {
+    public QAModel setWrongAnswer(String ans1, String ans2, String ans3) {
         wrongAnswer[0] = ans1;
         wrongAnswer[1] = ans2;
         wrongAnswer[2] = ans3;
-
+        return this;
     }
 
-    public Drawable getQuestionImage() {
-        return questionImage;
+    public int getQuestionImageId() {
+        return questionImageId;
     }
 
     public String getCorrectAnswer() {

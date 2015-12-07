@@ -9,8 +9,10 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Random;
 
 import project.com.introtoforest.R;
 import project.com.introtoforest.view.OptionView;
@@ -21,7 +23,7 @@ import project.com.introtoforest.view.OptionView;
 public class GameService implements Observer {
 
     private static final int OPTION_SIZE = 4;
-    private static final int TOTAL_QUESTION = 15;
+    private static final int TOTAL_QUESTION = 7;
 
     private Context mContext;
     private ArrayList<QAModel> qaModels;
@@ -38,7 +40,7 @@ public class GameService implements Observer {
 
 
     public GameService (Context context){
-        qaModels = new ArrayList<QAModel>(15);
+        qaModels = new ArrayList<QAModel>();
         mContext = context;
 
         current = 1;
@@ -46,15 +48,74 @@ public class GameService implements Observer {
     }
 
 
+    /**
+     * Raw code
+     */
     private void initModels() {
         // initModels for QA models
-        for (int i=0;i<TOTAL_QUESTION;i++) {
-            QAModel a = new QAModel();
-            a.setQuestionImage(mContext.getResources().getDrawable(R.drawable.sample_pic));
-            a.setCorrectAnswer("灰喉山椒鳥");
-            a.setWrongAnswer("白喉山椒鳥", "黃喉山椒鳥", "小山椒鳥");
-            qaModels.add(a);
-        }
+        // 1
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_1)
+                .setCorrectAnswer("莫氏樹蛙").setWrongAnswer("艾氏樹蛙", "巴氏小樹蛙", "長腳赤蛙"));
+
+        // 2
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_2)
+                .setCorrectAnswer("小元").setWrongAnswer("大元", "黃品源", "團團圓圓"));
+
+        // 3
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_3)
+                .setCorrectAnswer("秀柱花").setWrongAnswer("立倫花", "英文花", "楚瑜花"));
+
+        // 4
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_4)
+                .setCorrectAnswer("咬人貓").setWrongAnswer("咬人狗", "咬人草", "咬人花"));
+
+        // 5
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_5)
+                .setCorrectAnswer("紅斑蛇").setWrongAnswer("金絲蛇", "斯文豪氏遊蛇", "青竹絲"));
+
+        // 6
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_6)
+                .setCorrectAnswer("肖楠步道").setWrongAnswer("白楊步道", "伯朗大道", "秋海棠步道"));
+
+        // 7
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_7)
+                .setCorrectAnswer("灰喉山椒鳥").setWrongAnswer("灰山椒鳥", "花翅山椒鳥", "長尾山椒鳥"));
+
+        // 8
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_8)
+                .setCorrectAnswer("咖啡樹").setWrongAnswer("臭牡丹", "咬人狗", "肉桂"));
+
+        // 9
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_9)
+                .setCorrectAnswer("吊鐘姬蛛").setWrongAnswer("長尾寄居姬蛛", "大姬蛛", "沙地豹蛛"));
+
+        // 10
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_10)
+                .setCorrectAnswer("第倫桃").setWrongAnswer("金絲桃", "月桃", "夾竹桃"));
+
+        // 11
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_11)
+                .setCorrectAnswer("藪鳥").setWrongAnswer("紅頭山雀", "短翅樹鶯", "繡眼畫眉"));
+
+        // 12
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_12)
+                .setCorrectAnswer("捕食").setWrongAnswer("互利共生", "片利共生", "寄生"));
+
+
+        // 13
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_13)
+                .setCorrectAnswer("忠義").setWrongAnswer("德智", "仁愛", "誠信"));
+
+
+        // 14
+        qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_14)
+                .setCorrectAnswer("中間不是天文助教").setWrongAnswer("左邊不是天文助教", "右邊不是天文助教", "全部都是天文助教"));
+
+
+
+        // random it!
+        long seed = System.nanoTime();
+        Collections.shuffle(qaModels, new Random(seed));
     }
 
     /**
@@ -85,8 +146,8 @@ public class GameService implements Observer {
 
 
     private void setQuestion(int current) {
-        Drawable d = qaModels.get(current).getQuestionImage();
-        mQuestionView.setImageDrawable(d);
+        int id = qaModels.get(current).getQuestionImageId();
+        mQuestionView.setImageDrawable(mContext.getResources().getDrawable(id));
     }
 
     private void setRandomAnswer(int current) {
