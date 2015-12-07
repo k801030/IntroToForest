@@ -133,7 +133,13 @@ public class GameService implements Observer {
         imageFadeIn();
         optionsFadeInInSeq();
 
-
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mOptionView.setOptionViewClickable(true);
+            }
+        }, 800 + D_IMG_FADE_IN);
         mOptionView.resetView();
 
         setQuestion(current);
@@ -196,7 +202,7 @@ public class GameService implements Observer {
             public void run() {
                 // Do something after 5s = 5000ms
                 startNextStage();
-                mOptionView.setOptionViewClickable(true);
+
 
             }
         }, D_FADE_OUT+D_NEXT_STAGE);
@@ -252,10 +258,11 @@ public class GameService implements Observer {
                         .playOn(mOptionView.getBottomText());
             }
         }, i * 200 + D_IMG_FADE_IN);
+
     }
 
     private void hideAll() {
-        for (int i=0;i<4;i++) {
+        for (int i = 0; i < 4; i++) {
             YoYo.with(Techniques.FadeOut)
                     .duration(0)
                     .playOn(mOptionView.getOption(i));
