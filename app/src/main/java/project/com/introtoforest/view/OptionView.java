@@ -1,7 +1,6 @@
 package project.com.introtoforest.view;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.util.AttributeSet;
@@ -12,8 +11,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -76,6 +73,7 @@ public class OptionView extends LinearLayout {
     public void resetView() {
         for (int i=0;i< mOptions.size();i++) {
             mOptions.get(i).setBackgroundColor(Color.WHITE);
+            mOptions.get(i).setTextColor(getResources().getColor(R.color.default_text_color));
         }
         setClickable(true);
     }
@@ -105,6 +103,7 @@ public class OptionView extends LinearLayout {
                 }
             };
 
+            setTextColor(getResources().getColor(R.color.default_text_color));
             setGravity(Gravity.CENTER);
 
             LinearLayout.LayoutParams params = new LayoutParams(
@@ -113,7 +112,6 @@ public class OptionView extends LinearLayout {
             params.setMargins(0, 0, 0, margins);
             setClickable(true); // enable click
 
-            setBackground(getResources().getDrawable(R.drawable.abc_list_selector_background_transition_holo_dark));
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -122,6 +120,8 @@ public class OptionView extends LinearLayout {
                     } else {
                         setBackgroundColor(getResources().getColor(R.color.wrong));
                     }
+
+                    setTextColor(Color.WHITE);
                     onClickObservable.notifyObservers();
                 }
             });

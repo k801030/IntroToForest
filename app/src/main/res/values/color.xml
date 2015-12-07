@@ -2,6 +2,7 @@
 <resources>
     <color name="light_gray">#8bdcb6</color>
     <color name="white">#ffffff</color>
+    <color name="default_text_color">#555</color>
 
     <color name="correct">#51ba97</color>
     <color name="wrong">#bd393f</color>
