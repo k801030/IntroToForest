@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -25,7 +26,8 @@ import project.com.introtoforest.service.GameService;
 public class OptionView extends LinearLayout {
 
     private int background = 0x30000000;
-    private int margins = 1;
+    private int margins_dp = 8;
+
     private static final int OPTION_SIZE = 4;
     private boolean clickable = true;
 
@@ -74,7 +76,7 @@ public class OptionView extends LinearLayout {
 
     public void resetView() {
         for (int i=0;i< mOptions.size();i++) {
-            mOptions.get(i).setBackgroundColor(Color.WHITE);
+            mOptions.get(i).setBackground(getResources().getDrawable(R.drawable.option_default));
             mOptions.get(i).setTextColor(getResources().getColor(R.color.default_text_color));
         }
         setClickable(true);
@@ -111,6 +113,7 @@ public class OptionView extends LinearLayout {
             LinearLayout.LayoutParams params = new LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, 0, 2.0f);
             setLayoutParams(params);
+            int margins = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, margins_dp, getResources().getDisplayMetrics()); // set to dp
             params.setMargins(0, 0, 0, margins);
             setClickable(true); // enable click
 
@@ -121,10 +124,10 @@ public class OptionView extends LinearLayout {
                     // set color
                     setTextColor(Color.WHITE);
                     if (correct) {
-                        setBackgroundColor(getResources().getColor(R.color.correct));
+                        setBackground(getResources().getDrawable(R.drawable.option_correct));
                         mMediaPlayer = MediaPlayer.create(getContext(), R.raw.correct);
                     } else {
-                        setBackgroundColor(getResources().getColor(R.color.wrong));
+                        setBackground(getResources().getDrawable(R.drawable.option_wrong));
                         mMediaPlayer = MediaPlayer.create(getContext(), R.raw.wrong);
                     }
 
@@ -177,7 +180,7 @@ public class OptionView extends LinearLayout {
             LayoutParams params = new LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, 0, 1.0f);
             setLayoutParams(params);
-            setBackgroundColor(Color.WHITE);
+            setBackground(getResources().getDrawable(R.drawable.option_default));
         }
 
         public void setSerial(int serial) {
