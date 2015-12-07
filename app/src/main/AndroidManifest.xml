@@ -20,6 +20,9 @@
         <activity
             android:name=".activity.GameActivity"
             />
+
+        <service android:name=".service.BackgroundSound"
+            />
     </application>
 
 </manifest>

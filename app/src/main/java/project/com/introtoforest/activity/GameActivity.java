@@ -1,6 +1,7 @@
 package project.com.introtoforest.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import project.com.introtoforest.R;
+import project.com.introtoforest.service.BackgroundSound;
 import project.com.introtoforest.service.GameService;
 import project.com.introtoforest.view.OptionView;
 
@@ -17,6 +19,8 @@ import project.com.introtoforest.view.OptionView;
  */
 public class GameActivity extends AppCompatActivity {
     GameService mGameService;
+    BackgroundSound mBSService;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,17 @@ public class GameActivity extends AppCompatActivity {
         mGameService.setBindingOptionView(options);
         mGameService.setBindingQuestionView(questionImg);
 
+
+        // start background sound
+        intent = new Intent(this, BackgroundSound.class);
+        startService(intent);
+
         mGameService.startNextStage();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopService(intent);
     }
 }

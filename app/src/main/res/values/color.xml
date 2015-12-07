@@ -6,4 +6,6 @@
 
     <color name="correct">#51ba97</color>
     <color name="wrong">#bd393f</color>
+
+    <color name="bg">#f6ffd7</color>
 </resources>
