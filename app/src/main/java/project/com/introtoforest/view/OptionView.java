@@ -3,6 +3,7 @@ package project.com.introtoforest.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -31,6 +32,7 @@ public class OptionView extends LinearLayout {
     private ArrayList<OptionItem> mOptions;
     private BottomText mBottomText;
     private GameService mGameService;
+    private MediaPlayer mMediaPlayer;
 
     public OptionView(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
@@ -115,13 +117,29 @@ public class OptionView extends LinearLayout {
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    // set color
+                    setTextColor(Color.WHITE);
                     if (correct) {
                         setBackgroundColor(getResources().getColor(R.color.correct));
+                        mMediaPlayer = MediaPlayer.create(getContext(), R.raw.correct);
                     } else {
                         setBackgroundColor(getResources().getColor(R.color.wrong));
+                        mMediaPlayer = MediaPlayer.create(getContext(), R.raw.wrong);
                     }
 
-                    setTextColor(Color.WHITE);
+
+
+                    // play audio
+                    mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.release();
+                        }
+
+                    });
+                    mMediaPlayer.start();
+
                     onClickObservable.notifyObservers();
                 }
             });
