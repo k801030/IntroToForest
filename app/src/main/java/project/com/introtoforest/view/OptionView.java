@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ import project.com.introtoforest.service.GameService;
 public class OptionView extends LinearLayout {
 
     private int background = 0x30000000;
-    private int margins_dp = 8;
+    private int margins_dp = 12;
 
     private static final int OPTION_SIZE = 4;
     private boolean clickable = true;
@@ -93,7 +94,7 @@ public class OptionView extends LinearLayout {
      * Option Item is inside Option View
      */
 
-    public class OptionItem extends TextView {
+    public class OptionItem extends Button {
         private boolean correct;
         private Observable onClickObservable;
 
@@ -153,16 +154,6 @@ public class OptionView extends LinearLayout {
             this.correct = correct;
         }
 
-        /**
-         * set if the option is correct.
-         */
-        public void setCorrectness(boolean c) {
-            correct = c;
-        }
-
-        public boolean getCorrectness() {
-            return correct;
-        }
 
     }
 
