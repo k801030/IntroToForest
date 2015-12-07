@@ -1,5 +1,6 @@
 package project.com.introtoforest.activity;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 
 import com.astuetz.PagerSlidingTabStrip;
 
@@ -22,17 +24,23 @@ public class MainActivity extends AppCompatActivity {
     ViewPager mViewPager;
     PagerSlidingTabStrip mTabs;
     PagerAdapter mPagerAdapter;
+    Button mStartBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdapter);
-        mTabs.setViewPager(mViewPager);
+
+        mStartBtn = (Button) findViewById(R.id.start_btn);
+        mStartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, GameActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
