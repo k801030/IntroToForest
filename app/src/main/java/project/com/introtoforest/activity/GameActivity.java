@@ -72,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
 
         // create an alert dialog
         final AlertDialog alert = alertDialogBuilder.create();
-
+        alert.setCanceledOnTouchOutside(false);
         restartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

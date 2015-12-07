@@ -5,7 +5,7 @@
     <color name="gray">#efefef</color>
     <color name="default_text_color">#555</color>
 
-    <color name="correct_no">#51ba97</color>
+    <color name="text">#51ba97</color>
     <color name="correct">#00d38d</color>
     <color name="wrong">#bd393f</color>
 

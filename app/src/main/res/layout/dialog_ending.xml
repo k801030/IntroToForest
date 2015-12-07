@@ -1,29 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:paddingTop="50dp"
+    android:paddingBottom="50dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dialog.ending.title"/>
+        android:text="@string/dialog.ending.title"
+        android:textColor="@color/text"
+        android:layout_margin="3dp"/>
 
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dialog.ending.content"/>
+        android:text="@string/dialog.ending.content"
+        android:textColor="@color/text"
+        android:layout_margin="3dp"/>
 
-    <Button
-        android:id="@+id/restart_btn"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/dialog.ending.restart_btn"/>
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/restart_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button"
+            android:textColor="@color/white"
+            android:text="@string/dialog.ending.restart_btn"
+            android:layout_margin="5dp"
+            android:drawableLeft="@drawable/reload"
+            android:padding="7dp"
+            />
 
-    <Button
-        android:id="@+id/quit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/dialog.ending.quit_btn"/>
+        <Button
+            android:id="@+id/quit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button"
+            android:textColor="@color/white"
+            android:text="@string/dialog.ending.quit_btn"
+            android:layout_margin="5dp"
+            android:padding="7dp"
+            android:drawableLeft="@drawable/exit"
+
+            />
+    </LinearLayout>
+
 </LinearLayout>
