@@ -6,7 +6,7 @@
     <string name="fragment.play.start">開始</string>
 
 
-    <string name="dialog.ending.title">恭喜你完成！</string>
+    <string name="dialog.ending.title">恭喜你完成挑戰！</string>
     <string name="dialog.ending.content">得分 60 分</string>
     <string name="dialog.ending.restart_btn">重新挑戰</string>
     <string name="dialog.ending.quit_btn">離開森多多</string>

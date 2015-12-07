@@ -14,6 +14,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
 
+import javax.security.auth.callback.Callback;
+
 import project.com.introtoforest.R;
 import project.com.introtoforest.view.OptionView;
 
@@ -30,6 +32,8 @@ public class GameService implements Observer {
     private OptionView mOptionView;
     private ImageView mQuestionView;
     private int current;
+    private EndingCallback endingCallback;
+    private int score = 0;
 
     // delay constant
     private static final int D_PRESS = 500;
@@ -45,9 +49,15 @@ public class GameService implements Observer {
 
         current = 1;
         initModels();
+        shuffle();
     }
 
 
+    public void resetGame() {
+        score = 0;
+        current = 0;
+        shuffle();
+    }
     /**
      * Raw code
      */
@@ -110,12 +120,16 @@ public class GameService implements Observer {
         // 14
         qaModels.add(new QAModel().setQuestionImageId(R.drawable.forest_14)
                 .setCorrectAnswer("中間不是天文助教").setWrongAnswer("左邊不是天文助教", "右邊不是天文助教", "全部都是天文助教"));
+    }
 
-
-
+    private void shuffle() {
         // random it!
         long seed = System.nanoTime();
         Collections.shuffle(qaModels, new Random(seed));
+    }
+
+    public void makeCorrectAns() {
+        score += 10;
     }
 
     /**
@@ -124,7 +138,7 @@ public class GameService implements Observer {
     public void startNextStage() {
 
         if (current > TOTAL_QUESTION) {
-            // quit the game
+            endingCallback.onEnding(score);
             return;
         }
 
@@ -270,5 +284,13 @@ public class GameService implements Observer {
         YoYo.with(Techniques.FadeOut)
                 .duration(0)
                 .playOn(mOptionView.getBottomText());
+    }
+
+    public void setEnddingAction(EndingCallback callback) {
+        endingCallback = callback;
+    }
+
+    public interface EndingCallback {
+        void onEnding(int score);
     }
 }

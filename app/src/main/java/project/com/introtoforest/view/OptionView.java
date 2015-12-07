@@ -126,6 +126,7 @@ public class OptionView extends LinearLayout {
                     setTextColor(Color.WHITE);
                     if (correct) {
                         setBackground(getResources().getDrawable(R.drawable.option_correct));
+                        mGameService.makeCorrectAns();
                         mMediaPlayer = MediaPlayer.create(getContext(), R.raw.correct);
                     } else {
                         setBackground(getResources().getDrawable(R.drawable.option_wrong));
